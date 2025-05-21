@@ -44,7 +44,7 @@ Com este projeto:
 
 ## 📱 Acesse o Projeto
 
-🔗 [Link para o site](https://orcfofa.github.io/PE-2025/)  
+🔗 [Link para o site](https://pe-2025-psi.vercel.app/)  
 📁 [Código-fonte no GitHub](https://github.com/OrcFofa/PE-2025)
 
 ---
