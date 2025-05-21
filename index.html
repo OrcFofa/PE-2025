@@ -86,34 +86,47 @@
 
 <script>
   let cart = [];
-  let cartCount = 0;
-  let cartTotal = 0;
 
   function addToCart(name, price) {
-    cart.push({ name, price });
-    cartCount++;
-    cartTotal += price;
+    const existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({ name, price, quantity: 1 });
+    }
     updateCart();
   }
 
-  function removeFromCart(index) {
-    cartTotal -= cart[index].price;
-    cart.splice(index, 1);
-    cartCount--;
+  function removeFromCart(name) {
+    const itemIndex = cart.findIndex(item => item.name === name);
+    if (itemIndex !== -1) {
+      if (cart[itemIndex].quantity > 1) {
+        cart[itemIndex].quantity -= 1;
+      } else {
+        cart.splice(itemIndex, 1);
+      }
+    }
     updateCart();
   }
 
   function updateCart() {
+    const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+    const cartTotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
     document.getElementById("cart-count").innerText = cartCount;
     document.getElementById("cart-total").innerText = cartTotal.toFixed(2).replace('.', ',');
 
     const cartItemsDiv = document.getElementById("cart-items");
     cartItemsDiv.innerHTML = '';
-    cart.forEach((item, index) => {
+    cart.forEach((item) => {
       cartItemsDiv.innerHTML += `
         <div class="cart-entry">
-          <span>${item.name} - R$ ${item.price.toFixed(2).replace('.', ',')}</span>
-          <span class="remove-btn" onclick="removeFromCart(${index})">✖</span>
+          <span>${item.name} - R$ ${item.price.toFixed(2).replace('.', ',')} 
+          (Qtd: ${item.quantity})</span>
+          <div>
+            <button class='btn-catalogo' onclick="addToCart('${item.name}', ${item.price})">+</button>
+            <button class='btn-catalogo' onclick="removeFromCart('${item.name}')">-</button>
+          </div>
         </div>
       `;
     });
@@ -127,16 +140,18 @@
 
     let message = "Olá! Gostaria de fazer o seguinte pedido:\n";
     cart.forEach(item => {
-      message += `- ${item.name} - R$ ${item.price.toFixed(2).replace('.', ',')}\n`;
+      message += `- ${item.name} *(Qtd: ${item.quantity})* - R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}\n`;
     });
-    message += `\nTotal: R$ ${cartTotal.toFixed(2).replace('.', ',')}\n`;
-    message += `\nQuanto fica o frete?`
+    const cartTotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    message += `\nTotal: R$ ${cartTotal.toFixed(2).replace('.', ',')}`;
+    message += `\n\n*Quanto fica o frete?*`;
 
-    const phoneNumber = "5521970752837"; // seu número com DDD e código do país
+    const phoneNumber = "5521970752837"; // coloque seu número
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   }
 </script>
+
 
 </body>
 </html>

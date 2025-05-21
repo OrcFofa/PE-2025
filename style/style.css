@@ -72,3 +72,9 @@ body {
     cursor: pointer;
     padding: 1vh;
   }
+
+ .btn-catalogo{
+  border-radius: 5px;
+  padding-bottom: 0;
+  padding-top: 0;
+ }
