@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" href="/img/icone.png">
+  <link rel="stylesheet" href="/style/style.css">
+  <title>Lanchonete</title>
+</head>
+<body>
+
+  <header>
+    <h1>Lanchonete</h1>
+    <p>Cardápio Digital</p>
+  </header>
+
+<div class="menu">
+  <section class="category">
+    <h2>🍔🍟🥤 Combos</h2>
+    <div class="item">
+      <img src="https://s3-sa-east-1.amazonaws.com/deliveryon-uploads/products/cariocalanches/84_63efd1e1c8fe6.png" alt="Combo X-Picanha" style="width: 100%; max-width: 300px; border-radius: 8px;">
+      <h3>Combo X-Picanha</h3>
+      <p>01 X Picanha (Pão, carne de picanha, ovo, queijo prato, presunto, cheddar, bacon e salada (tomate, alface e cebola roxa) + 01 batata de caixinha Pp + 01 guaramor</p>
+      <p><strong>R$ 29,00</strong></p>
+      <button onclick="addToCart('Combo X-Picanha', 29.00)">Adicionar ao carrinho</button>
+    </div>
+    
+    
+  </section>
+
+  <section class="category">
+    <h2>🍔 Hambúrgueres</h2>
+    <div class="item">
+      <img src="/img/x-picanha.png" alt="X Picanha" style="width: 100%; max-width: 300px; border-radius: 8px;">
+      <h3>X Picanha</h3>
+      <p>Pão, Carne de picanha, cheddar, bacon, ovo, queijo, presunto e salada ( tomate, alface, cebola roxa)</p>
+      <p><strong>R$ 22,00</strong></p>
+      <button onclick="addToCart('X Picanha', 22.00)">Adicionar ao carrinho</button>
+    </div>
+    
+    
+  </section>
+
+  <section class="category">
+    <h2>🍟 Batata Fritas</h2>
+    <div class="item">
+      <img src="/img/batatapp.png" alt="Batata Pp ( Caixinha)" style="width: 100%; max-width: 300px; border-radius: 8px;">
+      <h3>Batata Pp ( Caixinha)</h3>
+      <p></p>
+      <p><strong>R$ 8,00</strong></p>
+      <button onclick="addToCart('Batata Pp ( Caixinha)', 8.00)">Adicionar ao carrinho</button>
+    </div>
+    
+    
+  </section>
+
+  <section class="category">
+    <h2>🥤 Bebidas</h2>
+    <div class="item">
+      <img src="https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/168755536264960d227dc3e_75_75.jpeg" alt="Guaramor" style="width: 100%; max-width: 300px; border-radius: 8px;">
+      <h3>Guaramor</h3>
+      <p></p>
+      <p><strong>R$ 3,00</strong></p>
+      <button onclick="addToCart('Guaramor', 3.00)">Adicionar ao carrinho</button>
+    </div>
+
+    <div class="item">
+      <img src="https://lelecodelivery.com.br/wp-content/uploads/2020/10/Coca-cola-2-lt.png" alt="Coca Cola 02 Lts" style="width: 100%; max-width: 300px; border-radius: 8px;">
+      <h3>Coca Cola 02 Lts</h3>
+      <p></p>
+      <p><strong>R$ 15,00</strong></p>
+      <button onclick="addToCart('Coca Cola 02 Lts', 15.00)">Adicionar ao carrinho</button>
+    </div>
+    
+  </section>
+</div>
+
+<div id="cart-icon">
+  🛒 <span id="cart-count">0</span> | Total: R$ <span id="cart-total">0,00</span>
+
+  <h2>Itens no Carrinho:</h2>
+  <div id="cart-items"></div>
+  <button id="whatsapp-btn" onclick="sendWhatsApp()">Finalizar Pedido pelo WhatsApp</button>
+</div>
+
+
+<script>
+  let cart = [];
+  let cartCount = 0;
+  let cartTotal = 0;
+
+  function addToCart(name, price) {
+    cart.push({ name, price });
+    cartCount++;
+    cartTotal += price;
+    updateCart();
+  }
+
+  function removeFromCart(index) {
+    cartTotal -= cart[index].price;
+    cart.splice(index, 1);
+    cartCount--;
+    updateCart();
+  }
+
+  function updateCart() {
+    document.getElementById("cart-count").innerText = cartCount;
+    document.getElementById("cart-total").innerText = cartTotal.toFixed(2).replace('.', ',');
+
+    const cartItemsDiv = document.getElementById("cart-items");
+    cartItemsDiv.innerHTML = '';
+    cart.forEach((item, index) => {
+      cartItemsDiv.innerHTML += `
+        <div class="cart-entry">
+          <span>${item.name} - R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+          <span class="remove-btn" onclick="removeFromCart(${index})">✖</span>
+        </div>
+      `;
+    });
+  }
+
+  function sendWhatsApp() {
+    if (cart.length === 0) {
+      alert("Seu carrinho está vazio.");
+      return;
+    }
+
+    let message = "Olá! Gostaria de fazer o seguinte pedido:\n";
+    cart.forEach(item => {
+      message += `- ${item.name} - R$ ${item.price.toFixed(2).replace('.', ',')}\n`;
+    });
+    message += `\nTotal: R$ ${cartTotal.toFixed(2).replace('.', ',')}\n`;
+    message += `\nQuanto fica o frete?`
+
+    const phoneNumber = "5521970752837"; // seu número com DDD e código do país
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>
