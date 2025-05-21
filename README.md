@@ -1,5 +1,8 @@
 # 🍽️ Cardápio Digital com Carrinho e Integração com WhatsApp
 
+## 👩‍💻 Autora
+Desenvolvido por OrcFofa(Laura Santos) — Projeto de Extensão III | 2025
+
 ## 📋 Descrição da Atividade
 
 Durante o Projeto de Extensão III, desenvolvi um site funcional de **cardápio digital**, com foco em inovação para **pequenos negócios do ramo alimentício**. O sistema foi criado utilizando tecnologias básicas da web como **HTML**, **CSS** e **JavaScript**.
@@ -52,6 +55,3 @@ Com este projeto:
 git clone https://github.com/OrcFofa/PE-2025.git
 cd PE-2025
 abra o arquivo index.html no navegador
-
-## 👩‍💻 Autora
-Desenvolvido por OrcFofa(Laura Santos) — Projeto de Extensão III | 2025
